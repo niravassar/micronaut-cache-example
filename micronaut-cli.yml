@@ -1,0 +1,5 @@
+profile: service
+defaultPackage: micronaut.cache.example
+---
+testFramework: spock
+sourceLanguage: groovy
