@@ -22,7 +22,7 @@ class Application implements ApplicationEventListener<ServerStartupEvent> {
     @Override
     @CompileDynamic
     void onApplicationEvent(ServerStartupEvent serverStartupEvent) {
-        Message message = new Message(title: "my message")
+        Message message = new Message(title: "myMessage")
         messageDataService.save(message)
         println "Nirav"
     }
