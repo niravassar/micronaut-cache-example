@@ -24,6 +24,5 @@ class Application implements ApplicationEventListener<ServerStartupEvent> {
     void onApplicationEvent(ServerStartupEvent serverStartupEvent) {
         Message message = new Message(title: "myMessage")
         messageDataService.save(message)
-        println "Nirav"
     }
 }

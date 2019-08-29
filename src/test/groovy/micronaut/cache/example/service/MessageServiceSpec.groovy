@@ -2,12 +2,13 @@ package micronaut.cache.example.service
 
 import grails.gorm.transactions.Rollback
 import io.micronaut.test.annotation.MicronautTest
+import micronaut.cache.example.Application
 import micronaut.cache.example.domain.Message
 import spock.lang.Specification
 
 import javax.inject.Inject
 
-@MicronautTest
+@MicronautTest(application = Application)
 @Rollback
 class MessageServiceSpec extends Specification {
 
