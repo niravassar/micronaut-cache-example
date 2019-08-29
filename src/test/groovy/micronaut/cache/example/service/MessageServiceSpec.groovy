@@ -1,6 +1,9 @@
 package micronaut.cache.example.service
 
 import grails.gorm.transactions.Rollback
+import io.micronaut.cache.DefaultCacheManager
+import io.micronaut.cache.DefaultSyncCache
+import io.micronaut.cache.SyncCache
 import io.micronaut.test.annotation.MicronautTest
 import micronaut.cache.example.Application
 import micronaut.cache.example.domain.Message
@@ -15,6 +18,7 @@ class MessageServiceSpec extends Specification {
     static final String MESSAGE_TITLE = "myMessage"
 
     @Inject MessageService messageService
+    @Inject DefaultCacheManager defaultCacheManager
 
     def setup(){
         messageService.invocationCounter = 0
@@ -41,5 +45,29 @@ class MessageServiceSpec extends Specification {
         then: 'method is invoked bc cache doesnt have the stored value'
         !message
         messageService.invocationCounter == 2
+    }
+
+    def "inspect the default cache manager"() {
+        when: 'use the manager to find the caches'
+        Set<String> cacheNames = defaultCacheManager.getCacheNames()
+
+        then:
+        cacheNames.size() == 1
+        cacheNames.asList()[0] == "my-cache"
+
+        when: 'get the cache'
+        SyncCache<DefaultSyncCache> cache = defaultCacheManager.getCache("my-cache")
+        Message message = (Message) cache.get("myMessage", Message).get()
+
+        then:
+        cache.getName() == "my-cache"
+        message.title == "myMessage"
+
+        when: 'cache is invalidated'
+        cache.invalidateAll()
+        Optional<Message> result = cache.get("myMessage", Message)
+
+        then:
+        !result.isPresent()
     }
 }
