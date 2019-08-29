@@ -20,27 +20,26 @@ class MessageServiceSpec extends Specification {
         messageService.invocationCounter = 0
     }
 
-    def "test message inserted by application startup"() {
-        when:
+    def "test method cached after first invocation"() {
+        when: 'called the first time'
         Message message = messageService.findMessageByTitle(MESSAGE_TITLE)
 
-        then:
-        message.title == "myMessage"
-    }
-
-    def "test method invoked few times"() {
-        when:
-        Message message = messageService.findMessageByTitle(MESSAGE_TITLE)
-
-        then:
+        then: 'method runs by getting the gorm object'
         message.title == "myMessage"
         messageService.invocationCounter == 1
 
-        when:
+        when: 'called a second time'
         message = messageService.findMessageByTitle(MESSAGE_TITLE)
 
-        then:
+        then: 'the cache is accessed and the method doesnt run again'
         message.title == "myMessage"
+        messageService.invocationCounter == 1
+
+        when: 'called again with a different param'
+        message = messageService.findMessageByTitle(MESSAGE_TITLE+"Again")
+
+        then: 'method is invoked bc cache doesnt have the stored value'
+        !message
         messageService.invocationCounter == 2
     }
 }

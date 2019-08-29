@@ -1,6 +1,9 @@
 micronaut:
   application:
     name: micronaut-cache-example
+  caches:
+    my-cache:
+      maximumSize: 20
 ---
 #Datasource
 hibernate:
