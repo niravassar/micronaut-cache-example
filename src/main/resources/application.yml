@@ -7,6 +7,7 @@ hibernate:
   hbm2ddl:
     auto: update
 dataSource:
+  logSql: true
   driverClassName: org.h2.Driver
   username: sa
   password: ''
