@@ -42,6 +42,9 @@ dependencies {
     compile "org.grails:grails-datastore-gorm-hibernate5:$gormVersion"
     runtime "io.micronaut.configuration:micronaut-jdbc-hikari"
     implementation 'io.micronaut:micronaut-management'
+
+    compile "com.hazelcast:hazelcast:3.7.2"
+    compile "com.hazelcast:hazelcast-client:3.7.2"
 }
 
 test.classpath += configurations.developmentOnly
