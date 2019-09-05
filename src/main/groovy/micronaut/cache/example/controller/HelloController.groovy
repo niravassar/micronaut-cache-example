@@ -44,6 +44,21 @@ class HelloController {
         "Hazel cast Server"
     }
 
+    @Get("/hazelcastPort")
+    @Produces(MediaType.TEXT_PLAIN)
+    String hazelcastPort() {
+        Config cfg = new Config()
+        cfg.getNetworkConfig().setPort(5900)
+        HazelcastInstance instance = Hazelcast.newHazelcastInstance(cfg)
+        Map<Integer, String> mapCustomers = instance.getMap("customers")
+        mapCustomers.put(1, "Nirav")
+        mapCustomers.put(2, "Ali")
+
+        System.out.println("Customer with key 1: "+ mapCustomers.get(1));
+        System.out.println("Map Size:" + mapCustomers.size());
+        "Hazel cast with new port"
+    }
+
     @Get("/hazelcastClient")
     @Produces(MediaType.TEXT_PLAIN)
     String hazelcastClient() {
