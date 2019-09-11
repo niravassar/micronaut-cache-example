@@ -13,12 +13,20 @@ import io.micronaut.http.annotation.Produces
 import io.micronaut.http.MediaType
 
 @CompileStatic
-@Controller("/hello")
+@Controller("/")
 class HelloController {
     @Get("/")
     @Produces(MediaType.TEXT_PLAIN)
     String index() {
         "Hello World"
+    }
+
+    @Get("/hazelcastServerOnly")
+    @Produces(MediaType.TEXT_PLAIN)
+    String hazelcastServerOnly() {
+        Config cfg = new Config()
+        HazelcastInstance instance = Hazelcast.newHazelcastInstance(cfg)
+        "Hazel cast ServerOnly"
     }
 
     @Get("/hazelcastServer")
